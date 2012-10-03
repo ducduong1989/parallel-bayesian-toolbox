@@ -1,0 +1,9 @@
+The source code for the Parallel Bayesian Toolbox (PBT) can be distributed
+and/or modified under the terms of the BSD license (see LICENSE.BSD) or the GNU
+General Public License (GPL) as published by the Free Software Foundation,
+either version 3 of the License or (at your option) any later version (see
+LICENCE.GPL).
+
+You are free to choose the license for work that uses the Armadillo library
+(e.g. a proprietary application), provided some conditions are met. Please see
+LICENSE.BSD and LICENCE.GPL.

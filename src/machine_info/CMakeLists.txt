@@ -1,0 +1,16 @@
+if(WIN32)
+    add_definitions(-DWIN32)
+else(WIN32)
+    if(UNIX)
+        add_definitions(-DUNIX)
+    endif(UNIX)
+endif(WIN32)
+
+if (CUDA_FOUND)
+        add_definitions(-DQUERY_CUDA)
+	CUDA_ADD_LIBRARY(machineinfo machine_info.cpp machine_info.h)
+        target_link_libraries(machineinfo )
+else (CUDA_FOUND)
+	ADD_LIBRARY(machineinfo machine_info.cpp machine_info.h)
+endif (CUDA_FOUND)
+

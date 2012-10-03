@@ -1,0 +1,14 @@
+set(SOURCES
+    controldata.h
+    vehiclestate.h
+    calibrationstate.h
+    controllerinput.h
+    obstacledata.h
+    stoplinedata.h
+    pathplannerstate.h
+	simplepose.h
+	fullposeeuler.h
+	laserdata.h
+	globalevents.h
+	mapcontrolpoint.h
+)
