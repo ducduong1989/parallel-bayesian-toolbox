@@ -1,0 +1,138 @@
+=== Contents ===
+
+1. Introduction
+
+2. Installation
+   2.1 Dependencies
+   2.2 Installation on MS Windows
+
+3. Documentation / Reference Manual
+
+4. FAQs and Bug Reports
+
+
+
+=== 1. Introduction ===
+
+The Parallel Bayesian Toolbox (PBT) is a very flexible, high-performance and 
+platform independent C++ programming library for implementing the most common 
+Bayes filter - that is particle filters, Kalman filters and combinations of 
+both - in an easily understandable, high level language, following the 
+MATLAB/Octave programming language, for filtering, smoothing and predicting 
+applications. This is achieved by using optimized linear algebra libraries for 
+numerical computations on central processing units (CPUs) and Nvidia's Compute 
+Unified Device Architecture (CUDA) framework for performing computations on 
+graphics processing units (GPUs).
+
+
+=== 2. Installation ===
+
+1. Download the latest version of the Toolbox
+2. Resolve the dependencies described in 2.1
+3. Follow the building instructions 2.2
+
+
+=== 2.1 Dependencies ===
+
+Please find below some additional software that can be used with PBT. The only
+mandatory software dependencies are CMAKE and Armadillo.
+
+ * CMake http://www.cmake.org/
+ * Armadillo http://arma.sourceforge.net
+ * CUDA http://developer.nvidia.com/category/zone/cuda-zone
+ * Intel MKL http://software.intel.com/en-us/articles/intel-mkl
+ * AMD ACML http://developer.amd.com/tools/cpu/acml/
+ * Matlab http://www.mathworks.com
+ * ADTF http://ww.automotive.elektrobit.com/home/driver-assistance-software/eb-assist-adtf.html
+ * ATLAS, BOOST, ....
+
+
+=== 2.2 Building Instructions ===
+
+1. Download and compile a version of BLAS and LAPACK. Precompiled versions and 
+header files are in the repository under 'libs/blas_lapack/'.
+
+2. Use CMake to configure Armadillo Library. CMake will search for existing 
+BLAS and LAPACK libraries on your PC. You can take the ones described in step 
+1. For further information please read the ReadMe file under 
+'libs/armadillo/'. At the end save the compiled armadillo library at a known 
+location.
+
+3. Use the top CMakeLists.txt to generate the project files for your IDE. 
+Select the generated Armadillo library and header files. The other 
+dependencies, e.g. CUDA, should be found automatically.
+
+4. Now compile the library or test cases.
+
+Warning: If you update some of the libraries, make sure that CMake Cache is
+         cleared. Otherwise there are strange compiler errors!
+
+
+=== 3. FAQs and Bug Reports ===
+
+* MKL Linker options and working VS2008 parameter settings for Armadillo
+
+ - /include/amardillo_bits/config.hpp
+    o for MKL disable : #define ARMA_BLAS_CAPITALS, #define ARMA_BLAS_UNDERSCORE
+    o for MKL mkl_malloc() and mkl_free() enable : #define ARMA_USE_MKL_ALLOC
+    o for TBB : enable #define ARMA_USE_TBB_ALLOC
+
+ - x86 :
+     CMake path settings :
+     ---------------------
+     D:/dev/Intel/Composer XE 2011 SP1/compiler/lib/ia32/libiomp5md.lib
+     D:/dev/Intel/Composer XE 2011 SP1/mkl/lib/ia32/mkl_core.lib
+     D:/dev/Intel/Composer XE 2011 SP1/mkl/lib/ia32/mkl_intel_c.lib
+     D:/dev/Intel/Composer XE 2011 SP1/mkl/lib/ia32/mkl_intel_thread.lib
+     D:/dev/Intel/Composer XE 2011 SP1/mkl/lib/ia32/mkl_lapack95.lib
+
+     VS2008 (VC9) settings :
+     -----------------------
+     Librarian > General
+      Additional Dependencies : mkl_intel_c.lib mkl_intel_thread.lib mkl_core.lib libiomp5md.lib
+      Link Library Dependencies : Yes
+
+ - x64 :
+     CMake path settings :
+     ---------------------
+     D:/dev/Intel/Composer XE 2011 SP1/compiler/lib/intel64/libiomp5md.lib
+     D:/dev/Intel/Composer XE 2011 SP1/mkl/lib/intel64/mkl_core.lib
+     D:/dev/Intel/Composer XE 2011 SP1/mkl/lib/intel64/mkl_intel_lp64.lib
+     D:/dev/Intel/Composer XE 2011 SP1/mkl/lib/intel64/mkl_intel_thread.lib
+     D:/dev/Intel/Composer XE 2011 SP1/mkl/lib/intel64/mkl_lapack95_lp64.lib
+
+     VS2008 (VC9) settings :
+     -----------------------
+     Librarian > General
+      Additional Dependencies : mkl_intel_lp64.lib mkl_intel_thread.lib mkl_core.lib libiomp5md.lib
+      Link Library Dependencies : Yes
+
+ - http://software.intel.com/en-us/articles/intel-mkl-link-line-advisor/
+ 
+* Error armadillo_bits/config.hpp not found in VS2008 (VC9)
+ - Cause: Cmake build path isn't the armadillo standard path
+ - Solution: Manually copy <CmakeBuildPath>/include/armadillo_bits/config.hpp into
+             <ArmadilloPath>/include/...
+ - Take care of : Make INSTALL in VS2008 (VC9) for 'Release', 'Debug' etc. !
+
+* Build instructions armadillo > ppf :
+ - Armadillo : CMAKE_INSTALL_PREFIX has tp point toa writable directory
+               destination ! + set up MKL paths
+ - PPF : setup ARMADILLO_DIR to the formerly choosen CMAKE_INSTALL_PREFIX
+
+
+* Build Instructions for LAPACK 3.4.1 for Windows with Visual Studio and
+  Prebuilt libraries for Microsoft Visual Studio Projects
+  http://icl.cs.utk.edu/lapack-for-windows/lapack/#lapacke
+
+
+* LAPACK & BLAS precompiled binaries for Win32 platform (only win32!)
+  http://www.fi.muni.cz/~xsvobod2/misc/lapack/
+
+
+* In case of error : CUDA linking error - Visual 2008 - nvcc fatal due to
+  (null) configuration file: Add
+    Tools > Options > Projects and Solutions > VC++ Directories : x64 Executable
+    files : $(VCInstallDir)bin\amd64
+  
+  see: http://stackoverflow.com/questions/2970493/cuda-linking-error-visual-express-2008-nvcc-fatal-due-to-null-configuratio
