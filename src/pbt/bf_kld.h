@@ -3,6 +3,9 @@
 
 #include "bf.h"
 
+/**
+  * particle filter using Kullback-Leibler Divergence sampling
+  */
 class BFilterKLD : public BFilter {
 private:
     unsigned int mxmin;

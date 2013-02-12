@@ -7,6 +7,9 @@ void callCalcRobustMeanKernel(float* data, float* weights, float* distances,
                               int stateDimension, int numberOfSamples, int mostProbParticle,
                               float* estimation);
 
+/**
+  * GPU accelerated robust mean estimation
+  */
 class EstimationRobustMeanCUDA : public Estimation {
 private:
         fvec distances;

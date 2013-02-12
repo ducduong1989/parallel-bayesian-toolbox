@@ -3,6 +3,9 @@
 
 #include "bf_cuda.h"
 
+/**
+  * GPU accelerated Sequential Importance Resampling Particle Filter
+  */
 class BFilterSIRCUDA : public BFilterCUDA
 {
 public:

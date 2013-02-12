@@ -7,7 +7,9 @@
 #include "resampling.h"
 #include "model.h"
 
-//template <typename T, int DIM>
+/**
+  * Bayes Filter base class implementing a simple SIS particle filter
+  */
 class BFilter
 {
 protected:
@@ -38,22 +40,12 @@ public:
           * or weights
           */
 
-
-        /**
-          * sets the resampling threshold as a defined number of particles
-          */
         void setThresholdByNumber(unsigned int);
-
-        /**
-          * sets the threshold for resampling as a factor from 0 to 1. It is
-          * multiplied with the number of existing particles
-          */
         void setThresholdByFactor(float);
 
-        /**
-          * gives the current set of particles including samples and weigts
-          */
         Particles getParticles();
+
+
         void setParticles(fmat,frowvec);
         void setSamples(fmat);
         void setWeights(frowvec);

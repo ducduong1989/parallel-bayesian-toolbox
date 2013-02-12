@@ -5,6 +5,9 @@
 #include "bf_ekf.h"
 #include <vector>
 
+/**
+  * Local Linearization Particle Filter
+  */
 class BFilterLLPF : public BFilter {
 private:
     std::vector<fmat> covariances;

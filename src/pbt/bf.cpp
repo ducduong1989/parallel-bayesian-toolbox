@@ -13,13 +13,17 @@ BFilter::~BFilter()
 }
 
 /**
-  * Reads the particles object
+  * Returns the current set of particles including samples and weights
   */
 Particles BFilter::getParticles()
 {
     return particles;
 }
 
+/**
+  * Returns the current covariance matrix. Either it computes the covariance matrix
+  * by calculating it or returning the on-line computed covariance matrix of a Kalman Filter
+  */
 fmat BFilter::getCovariance()
 {
     unsigned int numParticles = particles.samples.n_cols;
@@ -63,7 +67,9 @@ fmat BFilter::getCovariance()
 }
 
 /**
-  * Manipulate the particles including samples and their weights
+  * sets the particle set to a defined state
+  * @param samples matrix of particles approximating a defined state
+  * @param weigts vector of weights corresponing to the set of particles
   */
 void BFilter::setParticles(fmat newSamples,frowvec newWeights)
 {
@@ -78,15 +84,18 @@ void BFilter::setParticles(fmat newSamples,frowvec newWeights)
 }
 
 /**
-  * Manipulate only the samples of the partilces object
+  * define a new set of particles
+  * @param samples matrix of particles approximating a defined state
   */
 void BFilter::setSamples(fmat newSamples)
 {
     particles.samples = newSamples;
 }
 
+
 /**
-  * Manipulate only the weights of the partilces object
+  * sets a new vector of weights
+  * @param weigts vector of weights corresponing to the set of particles
   */
 void BFilter::setWeights(frowvec newWeights)
 {
@@ -104,6 +113,9 @@ void BFilter::predict()
     normalizeWeights();
 }
 
+/**
+  * returns the estimation of current state using the defined estimation method
+  */
 fvec BFilter::getEstimation(){
 	return estimator->getEstimation(&particles);
 
@@ -242,7 +254,8 @@ void BFilter::setResampling(Resampling *newResampler)
 }*/
 
 /**
-  * set threshold from 0 to 1
+  * sets the threshold for resampling as a factor from 0 to 1. It is
+  * internally multiplied with the number of existing particles
   */
 void BFilter::setThresholdByFactor(float newThreshold)
 {
@@ -250,7 +263,7 @@ void BFilter::setThresholdByFactor(float newThreshold)
 }
 
 /**
-  * set threshold as a defined number
+  * sets the resampling threshold as a defined number of particles
   */
 void BFilter::setThresholdByNumber(unsigned int newThreshold)
 {

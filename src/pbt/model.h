@@ -7,6 +7,9 @@
 
 using namespace arma;
 
+/**
+  * state space model base class
+  */
 class Model{
 
 public:

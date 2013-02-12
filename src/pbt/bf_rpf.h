@@ -3,6 +3,9 @@
 
 #include "bf.h"
 
+/**
+  * Regularized Particle Filter
+  */
 class BFilterRPF : public BFilter {
 public:
     BFilterRPF();

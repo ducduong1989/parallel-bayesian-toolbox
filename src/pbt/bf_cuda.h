@@ -10,7 +10,9 @@
 void callDeviationKernel(float* virtualMeasurements, float* realMeasurement,
                          int stateDimension, int numberOfSamples, float* deviations);
 
-//template <typename T, int DIM>
+/**
+  * GPU accelerated Bayes Filter base class implementing a simple SIS particle filter
+  */
 class BFilterCUDA
 {
 protected:

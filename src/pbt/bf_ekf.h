@@ -3,6 +3,9 @@
 
 #include "bf.h"
 
+/**
+  * Extended Kalman Filter
+  */
 class BFilterEKF : public BFilter {
 private:
     fmat P; // covariance matrix

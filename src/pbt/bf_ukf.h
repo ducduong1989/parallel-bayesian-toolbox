@@ -3,6 +3,9 @@
 
 #include "bf.h"
 
+/**
+  * Unscented Kalman Filter
+  */
 class BFilterUKF : public BFilter {
 private:
     fvec x1;

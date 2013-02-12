@@ -3,6 +3,9 @@
 
 #include "bf.h"
 
+/**
+  * Sequential Importance Resampling Particle Filter
+  */
 class BFilterSIR : public BFilter {
 public:
     BFilterSIR();

@@ -7,6 +7,9 @@
 
 using namespace arma;
 
+/**
+  * base class for a GPU accelerated state space model
+  */
 class ModelCUDA : public Model{
 
 public:

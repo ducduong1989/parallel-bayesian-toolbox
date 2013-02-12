@@ -4,7 +4,9 @@
 #include "particles.h"
 #include <vector>
 
-//template<typename T, int DIM>
+/**
+  * base class for estimation methods
+  */
 class Estimation{
 
 public:

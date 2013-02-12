@@ -3,6 +3,9 @@
 
 #include "estimation.h"
 
+/**
+  * robust mean estimation
+  */
 class EstimationRobustMean : public Estimation {
 private:
         fvec distances;
