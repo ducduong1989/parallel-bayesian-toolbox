@@ -1,6 +1,6 @@
 ## Noise sources defined in GUM
 
-set(NOISE_HEADERS   ppfnoises.h
+set(NOISE_HEADERS   pbtnoises.h
                     noise_gauss.h
                     noise_gamma.h
                     noise_exp.h

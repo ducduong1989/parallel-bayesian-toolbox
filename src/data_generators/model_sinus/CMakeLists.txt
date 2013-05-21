@@ -9,4 +9,4 @@ LIST(GET namelist ${last} Name)
 include_directories(${PROJECT_SOURCE_DIR}/src/models/model_sinus)
 
 ADD_EXECUTABLE(sinusdatagen dataGenerator_sinus.cpp)
-target_link_libraries(sinusdatagen ${Name} ppflib ${ARMADILLO_LIBRARIES})
+target_link_libraries(sinusdatagen ${Name} pbtlib ${ARMADILLO_LIBRARIES})

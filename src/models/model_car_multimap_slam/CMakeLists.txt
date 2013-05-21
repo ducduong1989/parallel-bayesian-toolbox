@@ -7,5 +7,5 @@ MATH( EXPR last "${len} - 1" )
 LIST(GET namelist ${last} Name)
 
 ADD_LIBRARY(${Name} model_car_multimap_slam.cpp model_car_multimap_slam.h)
-target_link_libraries(${Name} ppflib ${ARMADILLO_LIBRARIES})
+target_link_libraries(${Name} pbtlib ${ARMADILLO_LIBRARIES})
 

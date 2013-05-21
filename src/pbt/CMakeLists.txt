@@ -2,10 +2,10 @@
 set(PBT_SUB_LIBRARIES)
 add_subdirectory(noises)
 
-## all library independent files for ppf library
+## all library independent files for pbt library
 set (PBTLIB_SOURCES
       ## helper functions
-      ppf_helper_functions.cpp
+      pbt_helper_functions.cpp
       ## particle objects
       particle.cpp
       particles.cpp
@@ -45,7 +45,7 @@ set (PBTLIB_HEADERS
       ## Header file to include all PBT classes
       pbt.h
       ## helper functions
-      ppf_helper_functions.h
+      pbt_helper_functions.h
       ## particle objects
       particle.h 
       particles.h

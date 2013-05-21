@@ -6,7 +6,7 @@
 /**
   * GPU based multinomial resampling
   */
-extern "C" __global__ void ppfMultinomialResamplingCUDA(float* oldsamples, float* weights, float* random,
+extern "C" __global__ void pbtMultinomialResamplingCUDA(float* oldsamples, float* weights, float* random,
                                                         unsigned int stateDimension, unsigned int numberOfSamples,
                                                         float* newsamples){
 
@@ -47,6 +47,6 @@ void callMultinomialResamlingKernel(float* oldsamples, float* weights, float* ra
     dim3 blockGrid(numberOfBlocks ,1);
     dim3 threadGrid(MAX_THREADS_PER_BLOCK,1);
 
-    ppfMultinomialResamplingCUDA<<< blockGrid , threadGrid >>>(oldsamples, weights, random, stateDimension,
+    pbtMultinomialResamplingCUDA<<< blockGrid , threadGrid >>>(oldsamples, weights, random, stateDimension,
                                        numberOfSamples, newsamples);
 }

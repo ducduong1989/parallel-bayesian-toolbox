@@ -1,7 +1,7 @@
 /**
   * GPU based robust mean calculation
   */
-extern "C" __global__ void ppfCalcRobustMeanCUDA(float* data, float* weights, float* distances,
+extern "C" __global__ void pbtCalcRobustMeanCUDA(float* data, float* weights, float* distances,
                                            int stateDimension, int numberOfSamples, int mostProbParticle,
                                            float* estimation){
     int dimension = blockIdx.x;
@@ -19,6 +19,6 @@ void callCalcRobustMeanKernel(float* data, float* weights, float* distances,
                         int stateDimension, int numberOfSamples, int mostProbParticle,
                         float* estimation){
     //call kernel
-    ppfCalcRobustMeanCUDA<<<stateDimension,1>>>(data, weights, distances,stateDimension,
+    pbtCalcRobustMeanCUDA<<<stateDimension,1>>>(data, weights, distances,stateDimension,
                                           numberOfSamples, mostProbParticle,estimation);
 }

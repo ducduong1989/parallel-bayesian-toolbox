@@ -11,5 +11,5 @@ include_directories(${PROJECT_SOURCE_DIR}/src/high_precision_timer)
 
 
 ADD_EXECUTABLE( ${Name}Test test_sinus.cpp )
-target_link_libraries(${Name}Test ppflib ${Name} ${ARMADILLO_LIBRARIES} hr_timer)
+target_link_libraries(${Name}Test pbtlib ${Name} ${ARMADILLO_LIBRARIES} hr_timer)
 

@@ -10,5 +10,5 @@ include_directories(${PROJECT_SOURCE_DIR}/src/models/model_straight3d)
 include_directories(${PROJECT_SOURCE_DIR}/src/models/model_wpam_3d_trajectory)
 
 ADD_EXECUTABLE( ${Name}Test test_straight.cpp )
-target_link_libraries(${Name}Test ppflib ${Name} model_wpam_3d_trajectory ${ARMADILLO_LIBRARIES} hr_timer)
+target_link_libraries(${Name}Test pbtlib ${Name} model_wpam_3d_trajectory ${ARMADILLO_LIBRARIES} hr_timer)
 

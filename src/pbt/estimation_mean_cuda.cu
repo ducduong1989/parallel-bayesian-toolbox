@@ -1,7 +1,7 @@
 /**
   * GPU based mean calculation
   */
-extern "C" __global__ void ppfCalcMeanCUDA(float* data, float* weights, int stateDimension, int numberOfSamples, float* estimation){
+extern "C" __global__ void pbtCalcMeanCUDA(float* data, float* weights, int stateDimension, int numberOfSamples, float* estimation){
     int dimension = blockIdx.x;
     if (dimension < stateDimension){
         estimation[dimension] = 0;
@@ -14,5 +14,5 @@ extern "C" __global__ void ppfCalcMeanCUDA(float* data, float* weights, int stat
 
 void callCalcMeanKernel(float* data, float* weights, int stateDimension, int numberOfSamples, float* estimation){
     //call kernel
-    ppfCalcMeanCUDA<<<stateDimension,1>>>(data,weights,stateDimension,numberOfSamples,estimation);
+    pbtCalcMeanCUDA<<<stateDimension,1>>>(data,weights,stateDimension,numberOfSamples,estimation);
 }

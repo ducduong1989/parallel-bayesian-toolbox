@@ -4,7 +4,7 @@
 #ifndef PARALLEL_BAYES_TOOLBOX
 #define PARALLEL_BAYES_TOOLBOX
 
-#include "ppf_helper_functions.h"
+#include "pbt_helper_functions.h"
 #include "particle.h"
 #include "particles.h"
 
@@ -45,6 +45,6 @@
 #include "resampling_naive_delete.h"
 
 // Noise Sources
-#include "noises/ppfnoises.h"
+#include "noises/pbtnoises.h"
 
 #endif

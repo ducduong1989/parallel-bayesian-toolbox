@@ -115,10 +115,10 @@ Warning: If you update some of the libraries, make sure that CMake Cache is
              <ArmadilloPath>/include/...
  - Take care of : Make INSTALL in VS2008 (VC9) for 'Release', 'Debug' etc. !
 
-* Build instructions armadillo > ppf :
+* Build instructions armadillo > pbt :
  - Armadillo : CMAKE_INSTALL_PREFIX has tp point toa writable directory
                destination ! + set up MKL paths
- - PPF : setup ARMADILLO_DIR to the formerly choosen CMAKE_INSTALL_PREFIX
+ - PBT : setup ARMADILLO_DIR to the formerly choosen CMAKE_INSTALL_PREFIX
 
 
 * Build Instructions for LAPACK 3.4.1 for Windows with Visual Studio and

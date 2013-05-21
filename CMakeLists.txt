@@ -1,8 +1,8 @@
-# The name of our project is "ppf". CMakeLists files in this project can
-# refer to the root source directory of the project as ${PPF_SOURCE_DIR} and
-# to the root binary directory of the project as ${PPF_BINARY_DIR}.
+# The name of our project is "pbt". CMakeLists files in this project can
+# refer to the root source directory of the project as ${PBT_SOURCE_DIR} and
+# to the root binary directory of the project as ${PBT_BINARY_DIR}.
 cmake_minimum_required (VERSION 2.6)
-project (ppf)
+project (pbt)
 
 # Set a path for CMake's modules
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
@@ -19,16 +19,16 @@ SET(CMAKE_BUILD_TYPE "Debug")
 
 set(CMAKE_VERBOSE_MAKEFILE On CACHE BOOL "" FORCE)
 
-OPTION(PPF_VERBOSE "Prints out process messages during run-time. Please turn of if performance is required" ON)
-OPTION(PPF_USE_CUDA "Enables CUDA based functions" ON)
+OPTION(PBT_VERBOSE "Prints out process messages during run-time. Please turn of if performance is required" ON)
+OPTION(PBT_USE_CUDA "Enables CUDA based functions" ON)
 
-if(PPF_USE_CUDA)
+if(PBT_USE_CUDA)
 FIND_PACKAGE(CUDA)
-endif(PPF_USE_CUDA)
+endif(PBT_USE_CUDA)
 
-if(PPF_VERBOSE)
+if(PBT_VERBOSE)
     add_definitions(-DVERBOSE)
-endif(PPF_VERBOSE)
+endif(PBT_VERBOSE)
 
 FIND_PACKAGE(Armadillo REQUIRED)
 Find_Package(OpenCV)

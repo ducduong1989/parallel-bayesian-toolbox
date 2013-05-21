@@ -6,7 +6,7 @@
 //#include <Matrix.h>
 #include <string>
 
-#include "pf_sir.h"
+#include "bf_sirpf.h"
 #include "estimation_mean.h"
 #include "estimation_median.h"
 #include "resampling_multinomial.h"
@@ -33,22 +33,22 @@ int dimension;
 using namespace std;
 
 void printHelpText(){
-    mexPrintf("Function call: assume library name is ppfmex (in MATLAB) or ppfoct (in OCTAVE)\n");
-    mexPrintf("\tresult = ppfmex('key' [, matrix] [, matrix])\n");
+    mexPrintf("Function call: assume library name is pbtmex (in MATLAB) or pbtoct (in OCTAVE)\n");
+    mexPrintf("\tresult = pbtmex('key' [, matrix] [, matrix])\n");
     mexPrintf("Possible call combinations:\n");
-    mexPrintf(" ppfmex('initialize')              - initializes all needed things\n");
-	mexPrintf(" ppfmex('setModel','usedModel')    - changes the uses model\n");
-	mexPrintf(" ppfmex('getModels')               - changes the uses model\n");
-	mexPrintf(" ppfmex('getModelDescription')     - changes the uses model\n");
-    mexPrintf(" ppfmex('getCovariance')           - writes the covariance to the struct\n");
-    mexPrintf(" ppfmex('getParticles')            - writes the particles to the struct\n");
-    mexPrintf(" ppfmex('predict')                 - does prediction step\n");
-    mexPrintf(" ppfmex('update', z)               - does measurement update step using z\n");
-    mexPrintf(" ppfmex('setParticles', s, w)      - replace sample set with s and weights with w\n");
-    mexPrintf(" ppfmex('setThresholdByNumber', t) - sets resampling threshold as a number\n");
-    mexPrintf(" ppfmex('setThresholdByFactor', t) - sets resampling threshold as a factor\n");
-    mexPrintf(" ppfmex('cleanup')                 - clears the memory\n");
-    mexPrintf(" ppfmex('help')                    - shows this text\n");
+    mexPrintf(" pbtmex('initialize')              - initializes all needed things\n");
+	mexPrintf(" pbtmex('setModel','usedModel')    - changes the uses model\n");
+	mexPrintf(" pbtmex('getModels')               - changes the uses model\n");
+	mexPrintf(" pbtmex('getModelDescription')     - changes the uses model\n");
+    mexPrintf(" pbtmex('getCovariance')           - writes the covariance to the struct\n");
+    mexPrintf(" pbtmex('getParticles')            - writes the particles to the struct\n");
+    mexPrintf(" pbtmex('predict')                 - does prediction step\n");
+    mexPrintf(" pbtmex('update', z)               - does measurement update step using z\n");
+    mexPrintf(" pbtmex('setParticles', s, w)      - replace sample set with s and weights with w\n");
+    mexPrintf(" pbtmex('setThresholdByNumber', t) - sets resampling threshold as a number\n");
+    mexPrintf(" pbtmex('setThresholdByFactor', t) - sets resampling threshold as a factor\n");
+    mexPrintf(" pbtmex('cleanup')                 - clears the memory\n");
+    mexPrintf(" pbtmex('help')                    - shows this text\n");
     mexPrintf("Returns a struct with fields:\n");
     mexPrintf(" error      - is not zero if an error occurs\n");
     mexPrintf(" estimation - current estimation, updates after every prediction and update step\n");
@@ -71,7 +71,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     }
 
     // initialize helper function object
-    MatlabInterface ppfInterface;
+    MatlabInterface pbtInterface;
 
     // initialize mexArrays of output struct
     mwSize dims[2] = {1, 1};
@@ -82,23 +82,23 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     mxArray *weights = mxCreateDoubleMatrix(1,1,mxREAL);
 
     //initialize the armadillo matricies and link it to mexArrays
-    mat errorPPF = zeros<mat>(1,1);
-    const double* errorMem=access::rw(errorPPF.mem);
-    ppfInterface.matlab2arma(errorPPF,error);
+    mat errorPBT = zeros<mat>(1,1);
+    const double* errorMem=access::rw(errorPBT.mem);
+    pbtInterface.matlab2arma(errorPBT,error);
 
-    mat estimationPPF = mat(dimension,1);
-    const double* estimationMem=access::rw(estimationPPF.mem);
-    ppfInterface.matlab2arma(estimationPPF,estimation);
+    mat estimationPBT = mat(dimension,1);
+    const double* estimationMem=access::rw(estimationPBT.mem);
+    pbtInterface.matlab2arma(estimationPBT,estimation);
 
-    mat covariancePPF = mat(dimension,dimension);
-    const double* covarianceMem=access::rw(covariancePPF.mem);
-    ppfInterface.matlab2arma(covariancePPF,covariance);
+    mat covariancePBT = mat(dimension,dimension);
+    const double* covarianceMem=access::rw(covariancePBT.mem);
+    pbtInterface.matlab2arma(covariancePBT,covariance);
 
-    mat samplesPPF = mat(dimension,number);
-    const double* samplesMem=access::rw(samplesPPF.mem);
+    mat samplesPBT = mat(dimension,number);
+    const double* samplesMem=access::rw(samplesPBT.mem);
 
-    mat weightsPPF = mat(1,number);
-    const double* weightsMem=access::rw(weightsPPF.mem);
+    mat weightsPBT = mat(1,number);
+    const double* weightsMem=access::rw(weightsPBT.mem);
 
     // construct the struct field
     const char *keys[] = { "error", "estimation", "covariance", "particles", "weights" };
@@ -130,7 +130,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         filter->setModel(process);
         dimension = process->getProcessDimension();
 
-        mexPrintf("PPF initialized\n");
+        mexPrintf("PBT initialized\n");
     }
 
 	if (commandString.find("setModel")!= string::npos)
@@ -181,7 +181,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 
 		filter->setModel( process);
 
-        mexPrintf("PPF model is set\n");
+        mexPrintf("PBT model is set\n");
     }
 
 	if (commandString.find("getModels")!= string::npos)
@@ -219,7 +219,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 
         filter->setResampling(resampler);
 
-        mexPrintf("PPF resampling method is set\n");
+        mexPrintf("PBT resampling method is set\n");
     }
 
     if (commandString.find("setEstimationMethod")!= string::npos)
@@ -234,7 +234,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 
         filter->setEstimation(estimator);
 
-        mexPrintf("PPF  estimation method is set\n");
+        mexPrintf("PBT  estimation method is set\n");
     }
 
     if (commandString.find("setParticles")!= string::npos)
@@ -243,32 +243,32 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 
         mat inputSamples(1,1);
         const double* inputSamplesMem=access::rw(inputSamples.mem);
-        ppfInterface.matlab2arma(inputSamples,prhs[1]); // First create the matrix, then change it to point to the matlab data.
+        pbtInterface.matlab2arma(inputSamples,prhs[1]); // First create the matrix, then change it to point to the matlab data.
 
         mat inputWeights(1,1);
         const double* inputWeightsMem=access::rw(inputWeights.mem);
-        ppfInterface.matlab2arma(inputWeights,prhs[2]); // First create the matrix, then change it to point to the matlab data.
+        pbtInterface.matlab2arma(inputWeights,prhs[2]); // First create the matrix, then change it to point to the matlab data.
 
-        fmat temp(ppfInterface.DoubleToFloatArmaMat(inputSamples));
+        fmat temp(pbtInterface.DoubleToFloatArmaMat(inputSamples));
 
         fmat samples(temp);
 
-        fmat temp2(ppfInterface.DoubleToFloatArmaMat(inputWeights));
+        fmat temp2(pbtInterface.DoubleToFloatArmaMat(inputWeights));
 
         frowvec weights(temp2);
 
         filter->setSamples(samples);
         filter->setWeights(weights);
 
-        estimationPPF = (ppfInterface.floatToDoubleArmaMat(filter->getEstimation()));
-        estimationMem=access::rw(estimationPPF.mem);
-        ppfInterface.matlab2arma(estimationPPF,estimation);
+        estimationPBT = (pbtInterface.floatToDoubleArmaMat(filter->getEstimation()));
+        estimationMem=access::rw(estimationPBT.mem);
+        pbtInterface.matlab2arma(estimationPBT,estimation);
 
 
-        ppfInterface.freeVar(inputSamples,inputSamplesMem); // Change back the pointers!!
-        ppfInterface.freeVar(inputWeights,inputWeightsMem); // Change back the pointers!!
+        pbtInterface.freeVar(inputSamples,inputSamplesMem); // Change back the pointers!!
+        pbtInterface.freeVar(inputWeights,inputWeightsMem); // Change back the pointers!!
 
-        mexPrintf("PPF particles set\n");
+        mexPrintf("PBT particles set\n");
     }
 
     if (commandString.find("setThresholdByNumber")!= string::npos)
@@ -277,15 +277,15 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 
         mat inputThreshold(1,1);
         const double* inputThresholdMem=access::rw(inputThreshold.mem);
-        ppfInterface.matlab2arma(inputThreshold,prhs[1]); // First create the matrix, then change it to point to the matlab data.
+        pbtInterface.matlab2arma(inputThreshold,prhs[1]); // First create the matrix, then change it to point to the matlab data.
 
-        fmat temp = (ppfInterface.DoubleToFloatArmaMat(inputThreshold));
+        fmat temp = (pbtInterface.DoubleToFloatArmaMat(inputThreshold));
 
         filter->setThresholdByNumber((int)floor(temp(0,0)));
 
-        ppfInterface.freeVar(inputThreshold,inputThresholdMem); // Change back the pointers!!
+        pbtInterface.freeVar(inputThreshold,inputThresholdMem); // Change back the pointers!!
 
-        mexPrintf("PPF threshold set\n");
+        mexPrintf("PBT threshold set\n");
     }
 
     if (commandString.find("setThresholdByFactor")!= string::npos)
@@ -294,30 +294,30 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 
         mat inputThreshold(1,1);
         const double* inputThresholdMem=access::rw(inputThreshold.mem);
-        ppfInterface.matlab2arma(inputThreshold,prhs[1]); // First create the matrix, then change it to point to the matlab data.
+        pbtInterface.matlab2arma(inputThreshold,prhs[1]); // First create the matrix, then change it to point to the matlab data.
 
-        fmat temp(ppfInterface.DoubleToFloatArmaMat(inputThreshold));
+        fmat temp(pbtInterface.DoubleToFloatArmaMat(inputThreshold));
 
         filter->setThresholdByFactor(temp(0,0));
 
-        ppfInterface.freeVar(inputThreshold,inputThresholdMem); // Change back the pointers!!
+        pbtInterface.freeVar(inputThreshold,inputThresholdMem); // Change back the pointers!!
 
-        mexPrintf("PPF threshold set\n");
+        mexPrintf("PBT threshold set\n");
     }
 
     if (commandString.find("predict")!= string::npos)
     {
         computed = true;
         filter->predict();
-        mexPrintf("PPF prediction step performed\n");
+        mexPrintf("PBT prediction step performed\n");
 
         fmat ftemp = fmat(filter->getEstimation());
-        mat temp = ppfInterface.floatToDoubleArmaMat(ftemp);
-        estimationPPF = mat(temp);
-        estimationMem=access::rw(estimationPPF.mem);
-        ppfInterface.matlab2arma(estimationPPF,estimation);
+        mat temp = pbtInterface.floatToDoubleArmaMat(ftemp);
+        estimationPBT = mat(temp);
+        estimationMem=access::rw(estimationPBT.mem);
+        pbtInterface.matlab2arma(estimationPBT,estimation);
 
-        mexPrintf("PPF prediction step performed\n");
+        mexPrintf("PBT prediction step performed\n");
     }
 
     if (commandString.find("update")!= string::npos)
@@ -326,48 +326,48 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 
         mat input(1,1);
         const double* inputMem=access::rw(input.mem);
-        ppfInterface.matlab2arma(input,prhs[1]); // First create the matrix, then change it to point to the matlab data.
+        pbtInterface.matlab2arma(input,prhs[1]); // First create the matrix, then change it to point to the matlab data.
 
-        fmat temp = ppfInterface.DoubleToFloatArmaMat(input);
+        fmat temp = pbtInterface.DoubleToFloatArmaMat(input);
         fvec measurement(temp);
 
         filter->update(measurement);
 
         fmat ftemp = fmat(filter->getEstimation());
-        mat temp3 = ppfInterface.floatToDoubleArmaMat(ftemp);
-        estimationPPF = mat(temp3);
-        estimationMem=access::rw(estimationPPF.mem);
-        ppfInterface.matlab2arma(estimationPPF,estimation);
+        mat temp3 = pbtInterface.floatToDoubleArmaMat(ftemp);
+        estimationPBT = mat(temp3);
+        estimationMem=access::rw(estimationPBT.mem);
+        pbtInterface.matlab2arma(estimationPBT,estimation);
 
-        ppfInterface.freeVar(input,inputMem); // Change back the pointers!!
+        pbtInterface.freeVar(input,inputMem); // Change back the pointers!!
 
-        mexPrintf("PPF update performed\n");
+        mexPrintf("PBT update performed\n");
     }
 
     if (commandString.find("getParticles")!= string::npos)
     {
         computed = true;
         Particles particles = filter->getParticles();
-        samplesPPF = mat(particles.samples.n_rows,particles.samples.n_cols);
-        samplesMem=access::rw(samplesPPF.mem);
-        weightsPPF = mat(1,particles.weights.n_cols);
-        weightsMem=access::rw(weightsPPF.mem);
-        samples = mxCreateDoubleMatrix(samplesPPF.n_rows,samplesPPF.n_cols,mxREAL);
-        weights = mxCreateDoubleMatrix(weightsPPF.n_rows,weightsPPF.n_cols,mxREAL);
-        ppfInterface.matlab2arma(samplesPPF,samples);
-        ppfInterface.matlab2arma(weightsPPF,weights);
+        samplesPBT = mat(particles.samples.n_rows,particles.samples.n_cols);
+        samplesMem=access::rw(samplesPBT.mem);
+        weightsPBT = mat(1,particles.weights.n_cols);
+        weightsMem=access::rw(weightsPBT.mem);
+        samples = mxCreateDoubleMatrix(samplesPBT.n_rows,samplesPBT.n_cols,mxREAL);
+        weights = mxCreateDoubleMatrix(weightsPBT.n_rows,weightsPBT.n_cols,mxREAL);
+        pbtInterface.matlab2arma(samplesPBT,samples);
+        pbtInterface.matlab2arma(weightsPBT,weights);
 
         for (unsigned int i=0; i< particles.weights.n_cols; ++i)
         {
-            weightsPPF(i) = particles.weights(i);
+            weightsPBT(i) = particles.weights(i);
             for (unsigned int j=0; j<particles.samples.n_rows;++j)
             {
-                samplesPPF(j,i) = particles.samples(j,i);
+                samplesPBT(j,i) = particles.samples(j,i);
             }
         }
 
 
-        mexPrintf("PPF Particles set as output\n");
+        mexPrintf("PBT Particles set as output\n");
     }
 
     if (commandString.find("getCovariance")!= string::npos)
@@ -375,12 +375,12 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         computed = true;
 
         fmat ftemp = fmat(filter->getCovariance());
-        mat temp3 = ppfInterface.floatToDoubleArmaMat(ftemp);
-        covariancePPF = mat(temp3);
-        covarianceMem=access::rw(covariancePPF.mem);
-        ppfInterface.matlab2arma(covariancePPF,covariance);
+        mat temp3 = pbtInterface.floatToDoubleArmaMat(ftemp);
+        covariancePBT = mat(temp3);
+        covarianceMem=access::rw(covariancePBT.mem);
+        pbtInterface.matlab2arma(covariancePBT,covariance);
 
-        mexPrintf("PPF Covariance set as output\n");
+        mexPrintf("PBT Covariance set as output\n");
     }
 
     if (commandString.find("cleanup")!= string::npos)
@@ -390,7 +390,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
         delete resampler;
         delete estimator;
         delete process;
-        mexPrintf("PPF is deleted\n");
+        mexPrintf("PBT is deleted\n");
         return;
     }
 
@@ -406,11 +406,11 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     mxSetField (plhs[0], 0, "weights" , weights);
 
 
-    ppfInterface.freeVar(errorPPF,errorMem);
-    ppfInterface.freeVar(estimationPPF,estimationMem);
-    ppfInterface.freeVar(covariancePPF,covarianceMem);
-    ppfInterface.freeVar(samplesPPF,samplesMem);
-    ppfInterface.freeVar(weightsPPF,weightsMem);
+    pbtInterface.freeVar(errorPBT,errorMem);
+    pbtInterface.freeVar(estimationPBT,estimationMem);
+    pbtInterface.freeVar(covariancePBT,covarianceMem);
+    pbtInterface.freeVar(samplesPBT,samplesMem);
+    pbtInterface.freeVar(weightsPBT,weightsMem);
 
 }
 

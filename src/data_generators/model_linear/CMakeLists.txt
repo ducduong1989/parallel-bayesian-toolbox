@@ -9,5 +9,5 @@ LIST(GET namelist ${last} Name)
 include_directories(${PROJECT_SOURCE_DIR}/src/models/model_linear)
 
 ADD_EXECUTABLE(lineardatagen dataGenerator_linear.cpp)
-target_link_libraries(lineardatagen ${Name} ppflib ${ARMADILLO_LIBRARIES})
+target_link_libraries(lineardatagen ${Name} pbtlib ${ARMADILLO_LIBRARIES})
 

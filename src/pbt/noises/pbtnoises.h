@@ -1,5 +1,5 @@
-#ifndef __PPF_NOISES__
-#define __PPF_NOISES__
+#ifndef __PBT_NOISES__
+#define __PBT_NOISES__
 
 #include "noise_gauss.h"
 #include "noise_gamma.h"

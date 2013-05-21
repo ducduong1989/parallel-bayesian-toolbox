@@ -9,4 +9,4 @@ LIST(GET namelist ${last} Name)
 include_directories(${PROJECT_SOURCE_DIR}/src/models/model_wpam_3d_trajectory)
 
 ADD_EXECUTABLE(wpamdatagen dataGenerator_wpam_3d.cpp)
-target_link_libraries(wpamdatagen ${Name} ppflib ${ARMADILLO_LIBRARIES})
+target_link_libraries(wpamdatagen ${Name} pbtlib ${ARMADILLO_LIBRARIES})

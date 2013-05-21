@@ -1,4 +1,4 @@
-#include "ppfmapper.h"
+#include "pbtmapper.h"
 #include "mapcontrolpoint.h"
 #include <globalevents.h>
 
@@ -8,11 +8,11 @@
 #endif 
 
 
-ADTF_FILTER_PLUGIN("Particle Filter based Mapper", OID_ADTF_PPFMapper, PPFMapper)
+ADTF_FILTER_PLUGIN("Particle Filter based Mapper", OID_ADTF_PBTMapper, PBTMapper)
 
 using namespace adtf;
 
-PPFMapper::PPFMapper(const tChar *a_Info) :
+PBTMapper::PBTMapper(const tChar *a_Info) :
     cFilter(a_Info)
 {
     // REMARK: here you can setup your own properties!
@@ -25,13 +25,13 @@ PPFMapper::PPFMapper(const tChar *a_Info) :
     //GlobalReset();
 }
 
-tResult PPFMapper::Start(__exception /* = NULL */ )
+tResult PBTMapper::Start(__exception /* = NULL */ )
 {
     RETURN_NOERROR;
 }
 
 
-tResult PPFMapper::Init(cFilter::tInitStage eStage, __exception)
+tResult PBTMapper::Init(cFilter::tInitStage eStage, __exception)
 {
     RETURN_IF_FAILED(cFilter::Init(eStage, __exception_ptr));
 
@@ -64,7 +64,7 @@ tResult PPFMapper::Init(cFilter::tInitStage eStage, __exception)
     RETURN_NOERROR;
 }
 
-tResult PPFMapper::Shutdown(cFilter::tInitStage eStage, __exception)
+tResult PBTMapper::Shutdown(cFilter::tInitStage eStage, __exception)
 {
     RETURN_IF_FAILED(cFilter::Shutdown(eStage, __exception_ptr));
 
@@ -84,7 +84,7 @@ tResult PPFMapper::Shutdown(cFilter::tInitStage eStage, __exception)
 }
 
 
-tResult PPFMapper::OnPinEvent(adtf::IPin* pSource, tInt nEventCode, tInt nParam1, tInt nParam2, adtf::IMediaSample *pIMediaSample)
+tResult PBTMapper::OnPinEvent(adtf::IPin* pSource, tInt nEventCode, tInt nParam1, tInt nParam2, adtf::IMediaSample *pIMediaSample)
 {
     if (nEventCode == IPinEventSink::PE_MediaSampleReceived) {
         if (pSource == &m_InSimplePose) {
@@ -131,7 +131,7 @@ tResult PPFMapper::OnPinEvent(adtf::IPin* pSource, tInt nEventCode, tInt nParam1
 
 
 
-tResult	PPFMapper::Process()
+tResult	PBTMapper::Process()
 {
     std::vector<SplinePoint> splinePoints;
 
@@ -182,7 +182,7 @@ tResult	PPFMapper::Process()
     RETURN_NOERROR;
 }
 
-void PPFMapper::mapping(const std::vector<SplinePoint> & points, const SimplePose &pose, float speed, float steeringAngle)
+void PBTMapper::mapping(const std::vector<SplinePoint> & points, const SimplePose &pose, float speed, float steeringAngle)
 {
     unsigned int mapDimX = 800;
     unsigned int mapDimY = 800;
@@ -307,7 +307,7 @@ void PPFMapper::mapping(const std::vector<SplinePoint> & points, const SimplePos
 }
 
 
-tResult PPFMapper::registerPins(__exception)
+tResult PBTMapper::registerPins(__exception)
 {
     cObjectPtr<adtf::IMediaType> pTypeSimplePose;
     RETURN_IF_FAILED(AllocMediaType((tVoid**)&pTypeSimplePose,
@@ -342,7 +342,7 @@ tResult PPFMapper::registerPins(__exception)
 
 }
 
-tResult PPFMapper::Run(tInt nActivationCode,
+tResult PBTMapper::Run(tInt nActivationCode,
                                    const tVoid* pvUserData,
                                    tInt szUserDataSize,
                                    ucom::IException** __exception_ptr/* =NULL */)
@@ -364,7 +364,7 @@ tResult PPFMapper::Run(tInt nActivationCode,
     return cFilter::Run(nActivationCode, pvUserData, szUserDataSize, __exception_ptr);
 }
 
-void PPFMapper::GlobalReset()
+void PBTMapper::GlobalReset()
 {
     //memset(&m_OutControlData, 0, sizeof(m_OutControlData));
     //memset(&m_debugOutputData, 0, sizeof(m_debugOutputData));

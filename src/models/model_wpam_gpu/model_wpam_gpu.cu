@@ -6,7 +6,7 @@
 /**
   * GPU based ffun
   */
-extern "C" __global__ void ppfWPAMffunCUDA(float* lastState_dev, float* F_dev, float* U_dev, float* pNoise_dev, int stateDimension, int numberOfSamples,float* newState_dev)
+extern "C" __global__ void pbtWPAMffunCUDA(float* lastState_dev, float* F_dev, float* U_dev, float* pNoise_dev, int stateDimension, int numberOfSamples,float* newState_dev)
 {
     int dimension = threadIdx.y;
     int sample = blockIdx.x*(MAX_THREADS_PER_BLOCK/9) + threadIdx.x;
@@ -34,10 +34,10 @@ void callFfunKernel(float* lastState_dev, float* F_dev, float* U_dev, float* pNo
     }
     dim3 blockGrid(numberOfBlocks ,1);
     dim3 threadGrid(MAX_THREADS_PER_BLOCK/stateDimension,stateDimension);
-    ppfWPAMffunCUDA<<< blockGrid, threadGrid >>>(lastState_dev,F_dev,U_dev, pNoise_dev, stateDimension,numberOfSamples,newState_dev);
+    pbtWPAMffunCUDA<<< blockGrid, threadGrid >>>(lastState_dev,F_dev,U_dev, pNoise_dev, stateDimension,numberOfSamples,newState_dev);
 }
 
-extern "C" __global__ void ppfWPAMhfunCUDA(float* state_dev, float* oNoise_dev, int stateDimension, int numberOfSamples, float* meas_dev)
+extern "C" __global__ void pbtWPAMhfunCUDA(float* state_dev, float* oNoise_dev, int stateDimension, int numberOfSamples, float* meas_dev)
 {
     int dimension = threadIdx.y;
     int sample = blockIdx.x*(MAX_THREADS_PER_BLOCK/9) + threadIdx.x;
@@ -59,5 +59,5 @@ void callHfunKernel(float* state_dev, float* oNoise_dev, int stateDimension, int
     }
     dim3 blockGrid(numberOfBlocks ,1);
     dim3 threadGrid(MAX_THREADS_PER_BLOCK/stateDimension,stateDimension);
-    ppfWPAMhfunCUDA<<< blockGrid, threadGrid >>>(state_dev,oNoise_dev,stateDimension,numberOfSamples,meas_dev);
+    pbtWPAMhfunCUDA<<< blockGrid, threadGrid >>>(state_dev,oNoise_dev,stateDimension,numberOfSamples,meas_dev);
 }

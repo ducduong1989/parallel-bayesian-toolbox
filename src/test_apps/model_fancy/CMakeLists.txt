@@ -9,5 +9,5 @@ LIST(GET namelist ${last} Name)
 include_directories(${PROJECT_SOURCE_DIR}/src/models/model_fancy)
 
 ADD_EXECUTABLE( ${Name}Test test_fancy.cpp)
-target_link_libraries(${Name}Test ppflib ${Name} ${ARMADILLO_LIBRARIES} hr_timer)
+target_link_libraries(${Name}Test pbtlib ${Name} ${ARMADILLO_LIBRARIES} hr_timer)
 

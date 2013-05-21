@@ -7,4 +7,4 @@ MATH( EXPR last "${len} - 1" )
 LIST(GET namelist ${last} Name)
 
 ADD_LIBRARY(${Name} model_fancy.cpp model_fancy.h)
-target_link_libraries(${Name} ppflib ${ARMADILLO_LIBRARIES})
+target_link_libraries(${Name} pbtlib ${ARMADILLO_LIBRARIES})

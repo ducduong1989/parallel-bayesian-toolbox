@@ -1,5 +1,5 @@
-#ifndef PPFMAPPER_H
-#define PPFMAPPER_H
+#ifndef PBTMAPPER_H
+#define PBTMAPPER_H
 
 //#include <cv.h>
 
@@ -27,14 +27,14 @@
 #include <adtf_plugin_sdk.h>
 
 
-#define OID_ADTF_PPFMapper "fautonom.ppf_mapper"
+#define OID_ADTF_PBTMapper "fautonom.pbt_mapper"
 
-class PPFMapper : public adtf::cFilter
+class PBTMapper : public adtf::cFilter
 {
-    ADTF_FILTER(OID_ADTF_PPFMapper, "Particle Filter based Mapper", adtf::OBJCAT_DataFilter);
+    ADTF_FILTER(OID_ADTF_PBTMapper, "Particle Filter based Mapper", adtf::OBJCAT_DataFilter);
 
 public:
-    PPFMapper(const tChar *a_Info);
+    PBTMapper(const tChar *a_Info);
 
 	void GlobalReset();
 
@@ -87,4 +87,4 @@ private:
 };
 
 
-#endif // PPFMAPPER_H
+#endif // PBTMAPPER_H

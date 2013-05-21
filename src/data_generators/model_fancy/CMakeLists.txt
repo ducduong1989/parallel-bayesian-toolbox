@@ -9,4 +9,4 @@ LIST(GET namelist ${last} Name)
 include_directories(${PROJECT_SOURCE_DIR}/src/models/model_fancy)
 
 ADD_EXECUTABLE(fancydatagen dataGenerator_fancy.cpp)
-target_link_libraries(fancydatagen ${Name} ppflib ${ARMADILLO_LIBRARIES})
+target_link_libraries(fancydatagen ${Name} pbtlib ${ARMADILLO_LIBRARIES})

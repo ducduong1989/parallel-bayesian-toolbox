@@ -1,14 +1,3 @@
-% ppf.mex32 bzw ppf.mex64
-
-% resultstruct = ppf('initialize'); % x0, P0, w
-% resultstruct = ppf('setMeasurements', obs);
-% resultstruct = ppf('setResamplingMethod', 'string');
-% resultstruct = ppf('setEstiamtionMethod', 'string');
-% resultstruct = ppf('prediction'); % ffun, state xk-1, obs, Q
-% resultstruct = ppf('update'); % hfun, state xk_, obs, R
-% resultstruct = ppf('cleanup');
-
-
 %% Cleanup
 clc;
 clf;
@@ -33,9 +22,9 @@ weights = ones(1,nParticles) ./ nParticles;
 samples = randn(stateDimension,nParticles) .* 0.01;
 threshold = 0.3; %* nParticles;
 
-a = ppfoct('initialize');
-a = ppfoct('setParticles',samples, weights);
-a = ppfoct('setThresholdByFactor',threshold);
+a = pbtoct('initialize');
+a = pbtoct('setParticles',samples, weights);
+a = pbtoct('setThresholdByFactor',threshold);
 
 
 %% Filtering
@@ -60,11 +49,11 @@ particlesY = zeros(1, nObservations);
 for i = 1:nObservations
 
     % Preditcion
-    a = ppfoct('predict');
+    a = pbtoct('predict');
 
     % Save intermediate results
     results(i).predEstimation = a.estimation;
-    a = ppfoct('getParticles');
+    a = pbtoct('getParticles');
     results(i).predParticles = a.particles;
     
     if i >startSaving
@@ -78,14 +67,14 @@ for i = 1:nObservations
 
     % Update
     meas = meas + 0.5 + randn(obsDimension,1).*0.01 + randn(obsDimension,1).*0.001;
-    a = ppfoct('update',meas);
+    a = pbtoct('update',meas);
     
     % Save intermediate results
     results(i).updEstimation = a.estimation;
     estimationX(i) = a.estimation(1);
     estimationY(i) = a.estimation(2);
     
-    a = ppfoct('getParticles');
+    a = pbtoct('getParticles');
     results(i).updParticles = a.particles;
     results(i).meas = meas;
     

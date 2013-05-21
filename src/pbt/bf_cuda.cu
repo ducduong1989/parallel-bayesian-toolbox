@@ -6,7 +6,7 @@
 /**
   * GPU based mean calculation
   */
-extern "C" __global__ void ppfCalcDeviationsCUDA(float* virtualMeasurements, float* realMeasurement,
+extern "C" __global__ void pbtCalcDeviationsCUDA(float* virtualMeasurements, float* realMeasurement,
                                                  int stateDimension, int numberOfSamples, float* deviations){
     int dimension = threadIdx.y;
     int sample = blockIdx.x*(MAX_THREADS_PER_BLOCK/stateDimension) + threadIdx.x;
@@ -33,6 +33,6 @@ void callDeviationKernel(float* virtualMeasurements, float* realMeasurement,
     dim3 blockGrid(numberOfBlocks ,1);
     dim3 threadGrid(MAX_THREADS_PER_BLOCK/stateDimension,stateDimension);
     //call kernel
-    ppfCalcDeviationsCUDA<<<blockGrid,threadGrid>>>(virtualMeasurements, realMeasurement,
+    pbtCalcDeviationsCUDA<<<blockGrid,threadGrid>>>(virtualMeasurements, realMeasurement,
                                                     stateDimension, numberOfSamples, deviations);
 }

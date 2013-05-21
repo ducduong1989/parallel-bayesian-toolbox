@@ -2,7 +2,7 @@ if (NOT WIN32)
   set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-fPIC")
 endif (NOT WIN32)
 
-if(PPF_USE_CUDA)
+if(PBT_USE_CUDA)
 IF(CUDA_FOUND)
 
         MESSAGE(STATUS "CUDA has been found")
@@ -33,10 +33,10 @@ IF(CUDA_FOUND)
 ELSE(CUDA_FOUND)
 
         MESSAGE(WARNING "CUDA could not be found")
-        set (PPF_USE_CUDA OFF)
+        set (PBT_USE_CUDA OFF)
 
 ENDIF(CUDA_FOUND)
-endif(PPF_USE_CUDA)
+endif(PBT_USE_CUDA)
 
 
 IF(ARMADILLO_FOUND)
@@ -50,11 +50,11 @@ ELSE(ARMADILLO_FOUND)
 ENDIF(ARMADILLO_FOUND)
 
 include_directories(${ARMADILLO_INCLUDE_DIR})
-include_directories(${PROJECT_SOURCE_DIR}/src/ppf)
-include_directories(${PROJECT_SOURCE_DIR}/src/ppf/noises)
+include_directories(${PROJECT_SOURCE_DIR}/src/pbt)
+include_directories(${PROJECT_SOURCE_DIR}/src/pbt/noises)
 
 #Particle Filter Library
-add_subdirectory (ppf)
+add_subdirectory (pbt)
 
 ## Models
 add_subdirectory (models)

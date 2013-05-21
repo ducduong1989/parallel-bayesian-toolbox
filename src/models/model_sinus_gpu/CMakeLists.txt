@@ -8,4 +8,4 @@ LIST(GET namelist ${last} Name)
 
 # CUDA_ADD_LIBRARY(${Name} model_sinus_gpu.cpp model_sinus_gpu.h model_sinus_gpu.cu)
 CUDA_ADD_LIBRARY(${Name} model_sinus_gpu.cpp model_sinus_gpu.h) # line above has to be inserted when cuda kernel file is in the repository
-target_link_libraries(${Name} ppflib ${ARMADILLO_LIBRARIES})
+target_link_libraries(${Name} pbtlib ${ARMADILLO_LIBRARIES})

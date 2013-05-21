@@ -14,9 +14,9 @@ message (STATUS "ADTF found: ${ADTF_FOUND}")
 if (ADTF_FOUND)
 	
 
-        set(PPF_ADTF_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin" CACHE PATH "ADTF output path")
+        set(PBT_ADTF_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin" CACHE PATH "ADTF output path")
 
-        adtf_output_dir(${PPF_ADTF_OUTPUT_PATH})
+        adtf_output_dir(${PBT_ADTF_OUTPUT_PATH})
 
         include_directories(${ARMADILLO_INCLUDE_DIR})
         include_directories(include)
@@ -41,12 +41,12 @@ if (ADTF_FOUND)
         )
 
 	set(SOURCES
-	    ppfmapper.cpp
- 	    ppfmapper.h
+	    pbtmapper.cpp
+ 	    pbtmapper.h
 	)
 
-        adtf_add_filter(ppfmapper ${SOURCES} ${HEADERS})
+        adtf_add_filter(pbtmapper ${SOURCES} ${HEADERS})
 
-        target_link_libraries(ppfmapper ${OpenCV_LIBRARIES} ${OpenCV_LIBS} ppflib model_car_localization model_car_slam hr_timer)
+        target_link_libraries(pbtmapper ${OpenCV_LIBRARIES} ${OpenCV_LIBS} pbtlib model_car_localization model_car_slam hr_timer)
 
 endif (ADTF_FOUND)
