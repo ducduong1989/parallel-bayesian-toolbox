@@ -37,9 +37,10 @@ void printHelpText(){
     mexPrintf("\tresult = pbtmex('key' [, matrix] [, matrix])\n");
     mexPrintf("Possible call combinations:\n");
     mexPrintf(" pbtmex('initialize')              - initializes all needed things\n");
-	mexPrintf(" pbtmex('setModel','usedModel')    - changes the uses model\n");
-	mexPrintf(" pbtmex('getModels')               - changes the uses model\n");
-	mexPrintf(" pbtmex('getModelDescription')     - changes the uses model\n");
+	  mexPrintf(" pbtmex('setModel','usedModel')    - changes the used model\n");
+	  mexPrintf(" pbtmex('getModels')               - changes the used model\n");
+	  mexPrintf(" pbtmex('getModelDescription')     - changes the used model\n");
+    mexPrintf(" pbtmex('setEstimationMethod')     - changes the used estimation method\n");
     mexPrintf(" pbtmex('getCovariance')           - writes the covariance to the struct\n");
     mexPrintf(" pbtmex('getParticles')            - writes the particles to the struct\n");
     mexPrintf(" pbtmex('predict')                 - does prediction step\n");
@@ -52,7 +53,8 @@ void printHelpText(){
     mexPrintf("Returns a struct with fields:\n");
     mexPrintf(" error      - is not zero if an error occurs\n");
     mexPrintf(" estimation - current estimation, updates after every prediction and update step\n");
-    mexPrintf(" samples    - sample set; each column represents a  particle state vector\n");
+    mexPrintf(" covariance - current covariance, updates after every prediction and update step\n");
+    mexPrintf(" particles    - sample set; each column represents a particle state vector\n");
     mexPrintf(" weights    - weights of samples/ particles\n");
 }
 
